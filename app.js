@@ -3,6 +3,13 @@ const app = express();
 const bodyParser = require('body-parser');
 const PORT = 3000;
 
+let bestMovies = [
+  { title: 'Matrix' , year: 1999},
+  { title: 'Rambo' , year: 1985},
+  { title: 'Rocky' , year: 1988},
+  { title: 'Dikkenek' , year: 2009}
+]
+
 // ajout du middleware express.static pour indiquer l'emplacement des fichiers à servir statiquement (ici style.css)
 app.use('/public' , express.static('public'));
 // ajout du middleware bodyparser pour récupérer du contenu du body
@@ -22,20 +29,30 @@ app.get('/movies' , (req,res) => {
 
   const title = 'Meilleurs films des 30 dernières années'
 
-  const bestMovies = [
-    { title: 'Matrix' , year: 1999},
-    { title: 'Rambo' , year: 1985},
-    { title: 'Rocky' , year: 1988},
-    { title: 'Dikkenek' , year: 2009}
-  ]
+  // const bestMovies = [
+  //   { title: 'Matrix' , year: 1999},
+  //   { title: 'Rambo' , year: 1985},
+  //   { title: 'Rocky' , year: 1988},
+  //   { title: 'Dikkenek' , year: 2009}
+  // ];
   res.render('movies' , { bestMovies: bestMovies , title: title});
 });
 
 var urlencoderParser = bodyParser.urlencoded({ extended: false});
 
+//récupère les données postées sur /movies
 app.post('/movies' , urlencoderParser , (req,res) => {
-  console.log('le titre : ', req.body.movieTitle);
-  console.log('l\'année : ', req.body.movieYear);
+  //affichage en console(coté server) des données récupérées du form
+  // console.log('le titre : ', req.body.movieTitle);
+  // console.log('l\'année : ', req.body.movieYear);
+
+  //les données sont affectées à l'objet newMovie puis pousser dans le tableau bestMovies
+  const newMovie = { title: req.body.movieTitle , year: req.body.movieYear };
+  bestMovies.push(newMovie);
+
+  //affichage du tableau
+  console.table(bestMovies);
+  
   res.sendStatus(201);
 });
 
