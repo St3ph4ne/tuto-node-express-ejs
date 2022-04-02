@@ -28,8 +28,9 @@ app.get('/movies/add' , (req,res) => {
 
 app.get('/movies/:id' , (req,res) => {
   const id = req.params.id;
+  
   // res.send(`Détail du film ${id}`);
-  res.render('movie-details');
+  res.render('movie-details' , {movieid: id});
 });
 
 app.listen(PORT , () => {
