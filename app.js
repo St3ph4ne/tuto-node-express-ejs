@@ -15,7 +15,14 @@ app.get('/' , (req,res) => {
 });
 
 app.get('/movies' , (req,res) => {
-  res.render('movies');
+  const title = 'Meilleurs films des 30 dernières années'
+  const bestMovies = [
+    { title: 'Matrix' , year: 1999},
+    { title: 'Rambo' , year: 1985},
+    { title: 'Rocky' , year: 1988},
+    { title: 'Dikkenek' , year: 2009}
+  ]
+  res.render('movies' , { bestMovies: bestMovies , title: title});
 });
 
 // app.get('/movie-details' , (req,res) => {

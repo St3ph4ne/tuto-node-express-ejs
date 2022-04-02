@@ -16,7 +16,13 @@
   <h1>Express Movies : le site des cinéphiles</h1>
 
   <div class="central">
-    Liste des films
+    <h2>
+      <%= title %>
+    </h2>
+
+    <% for(movie of bestMovies) {%>
+      <div><%= movie.title %> (<%= movie.year %>)</div>
+    <% } %>
   </div>
 
   <%- include('./partials/footer') %>
