@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
+
 const PORT = 3000;
 
 let bestMovies = [
@@ -41,20 +44,35 @@ app.get('/movies' , (req,res) => {
 var urlencoderParser = bodyParser.urlencoded({ extended: false});
 
 //récupère les données postées sur /movies
-app.post('/movies' , urlencoderParser , (req,res) => {
+// app.post('/movies' , urlencoderParser , (req,res) => {
   //affichage en console(coté server) des données récupérées du form
   // console.log('le titre : ', req.body.movieTitle);
   // console.log('l\'année : ', req.body.movieYear);
 
   //les données sont affectées à l'objet newMovie puis pousser dans le tableau bestMovies
-  const newMovie = { title: req.body.movieTitle , year: req.body.movieYear };
-  bestMovies.push(newMovie);
+  // const newMovie = { title: req.body.movieTitle , year: req.body.movieYear };
+  // bestMovies.push(newMovie);
 
   //affichage du tableau
-  console.table(bestMovies);
-  
-  res.sendStatus(201);
-});
+  // console.table(bestMovies);
+
+//   res.sendStatus(201);
+// });
+
+app.post('/movies', upload.fields([]), (req, res) => {
+  //on teste si on a bien un body
+  if(!req.body) {
+    return res.sendStatus(500);
+  } else {
+    //on récupère et affiche le body en console server
+    const formData = req.body;
+    console.log('formData: ', formData);
+    const newMovie = { title: req.body.movieTitle, year: req.body.movieYear };
+    //on pousse le newMovie posté dans bestMovies et on affecte à un nouveau tableau bestMovies
+    bestMovies = [...bestMovies, newMovie];
+    res.sendStatus(201);
+  }
+})
 
 
 // app.get('/movie-details' , (req,res) => {
