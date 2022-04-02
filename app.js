@@ -1,9 +1,13 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const PORT = 3000;
 
 // ajout du middleware express.static pour indiquer l'emplacement des fichiers à servir statiquement (ici style.css)
-app.use('/public' , express.static('public'))
+app.use('/public' , express.static('public'));
+// ajout du middleware bodyparser pour récupérer du contenu du body
+// app.use(bodyParser.urlencoded({ extended: false}));
+
 
 // indique le view engine et son chemin
 app.set('views' , './views');
@@ -15,7 +19,9 @@ app.get('/' , (req,res) => {
 });
 
 app.get('/movies' , (req,res) => {
+
   const title = 'Meilleurs films des 30 dernières années'
+
   const bestMovies = [
     { title: 'Matrix' , year: 1999},
     { title: 'Rambo' , year: 1985},
@@ -24,6 +30,14 @@ app.get('/movies' , (req,res) => {
   ]
   res.render('movies' , { bestMovies: bestMovies , title: title});
 });
+
+var urlencoderParser = bodyParser.urlencoded({ extended: false});
+
+app.post('/movies' , urlencoderParser , (req,res) => {
+  console.log(req.body);
+  res.sendStatus(201);
+});
+
 
 // app.get('/movie-details' , (req,res) => {
 //   res.render('movie-details');
