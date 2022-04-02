@@ -20,10 +20,14 @@
       <%= title %>
     </h2>
 
-    <% for(movie of bestMovies) {%>
-      <div><%= movie.title %> (<%= movie.year %>)</div>
-    <% } %>
+    <div id="bestmovies">
+      <% for(movie of bestMovies) {%>
+        <div><%= movie.title %> (<%= movie.year %>)</div>
+      <% } %>
+    </div>
+
     <br>
+    
     <div>
       <form action="/movies" method="post">
         <label for="movieTitle">Titre du film</label>
@@ -37,6 +41,45 @@
 
   <%- include('./partials/footer') %>
   
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', addMovie);
+
+    function addMovie(event) {
+      event.preventDefault();
+
+      if(window.fetch) {
+        fetch('/movies', {
+          method: 'POST',
+          body:new FormData(form)
+        })
+        .then(checkStatus)
+        .catch(function(error) {
+          console.error('request failed', error)
+        })
+      } else {
+        //jQuery, XHR
+      }
+    }
+
+    function checkStatus(response) {
+      if(response.status >= 200 && response.status < 300) {
+
+        //on fabrique une nouvelle div avec les valeurs du formulaire rempli
+        let newMovieDiv = document.createElement('div');
+        const movieTitle = document.getElementById('movieTitle').value;
+        const movieYear = document.getElementById('movieYear').value;
+        newMovieDiv.innerHTML = `${movieTitle} (${movieYear})`;
+
+        //ajoute à la div bestmovies une div enfant newMovieDiv
+        document.getElementById('bestmovies').appendChild(newMovieDiv);
+
+        //vide les champs du formulaire
+        form.reset();
+      }
+    }
+  </script>
+
 </body>
 
 </html>
