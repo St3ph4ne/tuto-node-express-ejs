@@ -15,8 +15,12 @@ app.get('/' , (req,res) => {
 });
 
 app.get('/movies' , (req,res) => {
-  res.send('Liste des films');
+  res.render('movies');
 });
+
+// app.get('/movie-details' , (req,res) => {
+//   res.render('movie-details');
+// });
 
 app.get('/movies/add' , (req,res) => {
   res.send('prochainement un formulaire d\'ajout ici');
@@ -24,7 +28,8 @@ app.get('/movies/add' , (req,res) => {
 
 app.get('/movies/:id' , (req,res) => {
   const id = req.params.id;
-  res.send(`Détail du film ${id}`);
+  // res.send(`Détail du film ${id}`);
+  res.render('movie-details');
 });
 
 app.listen(PORT , () => {
