@@ -34,7 +34,8 @@ app.get('/movies' , (req,res) => {
 var urlencoderParser = bodyParser.urlencoded({ extended: false});
 
 app.post('/movies' , urlencoderParser , (req,res) => {
-  console.log(req.body);
+  console.log('le titre : ', req.body.movieTitle);
+  console.log('l\'année : ', req.body.movieYear);
   res.sendStatus(201);
 });
 
@@ -55,5 +56,5 @@ app.get('/movies/:id' , (req,res) => {
 });
 
 app.listen(PORT , () => {
-  console.log(`listening on port PORT`);
+  console.log(`listening on port ${PORT}`);
 });
