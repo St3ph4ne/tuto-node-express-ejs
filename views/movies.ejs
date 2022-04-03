@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Films</title>
+  <title>Express Movies</title>
   <link rel="stylesheet" href="../public/style.css">
 </head>
 
@@ -13,13 +13,9 @@
 
   <%- include('./partials/header') %>
 
-  <h1>Express Movies : le site des cinéphiles</h1>
+  <h1><%= title %></h1>
 
   <div class="central">
-    <h2>
-      <%= title %>
-    </h2>
-
     <div id="bestmovies">
       <% for(movie of bestMovies) {%>
         <div><%= movie.title %> (<%= movie.year %>)</div>

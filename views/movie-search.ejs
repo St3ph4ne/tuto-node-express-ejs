@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express Movies</title>
+  <link rel="stylesheet" href="../public/style.css">
+</head>
+
+<body>
+
+  <%- include('./partials/header') %>
+
+  <h1>Votre recherche sur The Movie Database :</h1>
+
+  <div class="central">
+    <input type="text" name="term" id="term" placeholder="titre du film">
+    <button id="btnSearch">chercher</button>
+    <div id="results">
+    </div>
+  </div>
+
+
+
+  <%- include('./partials/footer') %>
+
+  <!-- importation du module axios coté client via un cdn. Axios autorise les requetes et renvoie des promesses -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+
+    // METTRE ICI VOTRE CLE API FOURNIE PAR THEMOVIEDB.ORG <---------------------------------------------------------------------
+    const API_KEY = "";
+
+    // la variable term pointera sur le input recherche de film
+    const term = document.querySelector('#term');
+    // la variable btnSearch pointera sur le bouton recherche de film
+    const btnSearch = document.querySelector('#btnSearch');
+    // cliquer sur le bouton déclenchera la fonction search()
+    btnSearch.addEventListener('click', search);
+
+    //la div pour afficher le résultat de recherche
+    let resultsDiv = document.querySelector('#results');
+
+    function search() {
+      const query = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${term.value}&language=fr-FR`;
+      //récupère la réponse de l'API via axios
+      axios.get(query)
+        .then(function(response) {
+          console.log(response);
+          displayResults(response.data.results);
+        })
+    }
+
+    function displayResults(results) {
+      resultsDiv.innerHTML = "";
+      for(let result of results) {
+        let movieDiv = document.createElement('div');
+        movieDiv.innerHTML = result.title;
+        resultsDiv.appendChild(movieDiv);
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>

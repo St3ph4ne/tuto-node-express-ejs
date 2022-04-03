@@ -28,9 +28,16 @@ app.get('/' , (req,res) => {
   res.render('index.ejs');
 });
 
+
+app.get('/movie-search' , (req,res) => {
+  // res.send('Hello world !');
+  res.render('movie-search.ejs');
+});
+
+
 app.get('/movies' , (req,res) => {
 
-  const title = 'Meilleurs films des 30 dernières années'
+  const title = 'Meilleurs films des 30 dernières années :'
 
   // const bestMovies = [
   //   { title: 'Matrix' , year: 1999},
